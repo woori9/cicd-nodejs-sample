@@ -36,7 +36,7 @@ podTemplate(
 		stage("Get Source") {
 			//git url:"https://github.com/happykube/hellonode.git", branch: "main", credentialsId: "git_credential"
 		    //git branch: 'main', url: 'https://github.com/happykube/hellonode.git'
-			git branch: 'main', url: 'https://gitlab.com/msa2021/cicd-nodejs-sample.git'
+			git branch: 'master', url: 'https://gitlab.com/msa2021/cicd-nodejs-sample.git'
         } 
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅 
