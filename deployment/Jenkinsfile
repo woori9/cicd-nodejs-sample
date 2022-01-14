@@ -1,0 +1,121 @@
+def label = "cicd-sample-${env.BUILD_NUMBER}"
+
+/* -------- functions ---------- */
+def notifySlack(STATUS, COLOR) {
+	//slackSend (color: COLOR, message: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})")
+	slackSend (channel: '#cicd-sample', color: COLOR, message: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})")
+}
+
+def notifyMail(STATUS, RECIPIENTS) {
+	emailext body: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})",
+	subject: STATUS + " : " + "${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+	to: RECIPIENTS
+}
+/* ------------------------------ */
+
+def email_recipients="happycloudpak@gmail.com"
+
+notifySlack("STARTED", "#FFFF00")
+//notifyMail("STARTED", "${email_recipients}")
+
+podTemplate(
+	label: label, 
+	containers: [
+		//container image는 docker search 명령 이용
+		containerTemplate(name: "docker", image: "docker:stable", ttyEnabled: true, command: "cat"),
+		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
+        containerTemplate(name: "scanner", image: "newtmitch/sonar-scanner", ttyEnabled: true, command: "cat")
+	],
+	//volume mount
+	volumes: [
+		hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock")
+	]
+) 
+{
+	node(label) {
+		stage("Get Source") {
+			//git url:"https://github.com/happykube/hellonode.git", branch: "main", credentialsId: "git_credential"
+		    //git branch: 'main', url: 'https://github.com/happykube/hellonode.git'
+			git branch: 'main', url: 'https://gitlab.com/hyukseoung/cicd-sample.git'
+        } 
+
+		//-- 환경변수 파일 읽어서 변수값 셋팅 
+		def props = readProperties  file:"deployment/pipeline.properties"
+		def tag = props["version"]
+		def dockerRegistry = props["dockerRegistry"]
+		def credentialRegistry=props["credentialRegistry"]
+		def image = props["image"]
+		def deployment = props["deployment"]
+		def service = props["service"]
+		def ingress = props["ingress"]
+		def selector_key = props["selector_key"]
+		def selector_val = props["selector_val"]
+		def namespace = props["namespace"] 
+		def app_url = ""
+
+		// tag를 재정의 함. 이미지 버전이 달라야 배포시 컨테이너에서 인식
+		// def timeStamp = System.currentTimeMillis()
+		// echo "TimeStamp: ${timeStamp}"
+		// echo "Tag : ${tag}"
+		// tag = tag+"-"+timeStamp
+		// echo "New Tag : ${tag}"	
+
+
+		try {
+			
+            stage("Inspection Code") {
+				// container("scanner") {
+				// 	sh "sonar-scanner \
+				// 		-Dsonar.projectName=hellonode \
+				// 		-Dsonar.projectKey=hellonode \
+				// 		-Dsonar.sources=. \
+				// 		-Dsonar.inclusions=** \
+				// 		-Dsonar.language=javascript \
+				// 		-Dsonar.host.url=http://sonar.169.56.84.37.nip.io \
+				// 		-Dsonar.login=d08b8bde762cfc3ac15dba8aaaa2aa5e030752ad" 
+				// }
+			} 
+			           
+			stage("Build Microservice image") {
+				container("docker") {
+					docker.withRegistry("${dockerRegistry}", "${credentialRegistry}") {
+						sh "docker build -f ./deployment/Dockerfile -t ${image}:${tag} ."
+						sh "docker push ${image}:${tag}"
+						sh "docker tag ${image}:${tag} ${image}:latest"
+						sh "docker push ${image}:latest"
+					}
+				}
+			}
+			stage( "Clean Up Existing Deployments" ) {
+				container("kubectl") {
+					sh "kubectl delete deployments -n ${namespace} --selector=${selector_key}=${selector_val}"
+				}
+			}
+
+			stage( "Deploy to Cluster" ) {
+				container("kubectl") {
+					sh "kubectl apply -n ${namespace} -f ${deployment}"
+					sh "sleep 5"
+					sh "kubectl apply -n ${namespace} -f ${service}"
+					sh "kubectl apply -n ${namespace} -f ${ingress}"
+					sh "kubectl get ingress -n ${namespace} --no-headers | awk \'{print \$3}\' > sh-result"
+					app_url = readFile('sh-result').trim()
+					
+				}
+			}
+
+            notifySlack("${currentBuild.currentResult}", "#00FF00")
+            //notifyMail("${currentBuild.currentResult}", "${email_recipients}")
+
+
+			echo "**** FINISH ALL STAGES : SUCCESS"
+			echo " Home URL : http://${app_url}"
+
+
+		} catch(e) {
+			currentBuild.result = "FAILED"
+            notifySlack("${currentBuild.currentResult}", "#FF0000")
+            //notifyMail("${currentBuild.currentResult}", "${email_recipients}")
+		}
+	}
+}
