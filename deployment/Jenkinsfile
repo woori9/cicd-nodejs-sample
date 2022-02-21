@@ -78,13 +78,20 @@ podTemplate(
 			           
 			stage("Build Microservice image") {
 				container("docker") {
-					docker.withRegistry("${dockerRegistry}", "${credentialRegistry}") {
-						//sh "docker build -f ./deployment/Dockerfile -t ${image}:${tag} ."
-						sh "podman build -f ./deployment/Dockerfile -t ${image}:${tag} ."
+
+					sh "podman login --tls-verify=false --username hyukseoung --password sk5212480 docker.io"
+					sh "podman build -f ./deployment/Dockerfile -t ${image}:${tag} ."
 						sh "podman push ${image}:${tag}"
 						sh "podman tag ${image}:${tag} ${image}:latest"
 						sh "podman push ${image}:latest"
-					}
+
+//					docker.withRegistry("${dockerRegistry}", "${credentialRegistry}") {
+//						//sh "docker build -f ./deployment/Dockerfile -t ${image}:${tag} ."
+//						sh "podman build -f ./deployment/Dockerfile -t ${image}:${tag} ."
+//						sh "podman push ${image}:${tag}"
+//						sh "podman tag ${image}:${tag} ${image}:latest"
+//						sh "podman push ${image}:latest"
+//					}
 				}
 			}
 			stage( "Clean Up Existing Deployments" ) {
