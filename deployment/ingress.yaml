@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-    - host: hellonode.9.112.254.120.nip.io
+    - host: hellonode.169.56.71.190.nip.io
       http:
         paths:
           - path: /(.*)
