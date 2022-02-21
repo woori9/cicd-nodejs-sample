@@ -79,10 +79,11 @@ podTemplate(
 			stage("Build Microservice image") {
 				container("docker") {
 					docker.withRegistry("${dockerRegistry}", "${credentialRegistry}") {
-						sh "docker build -f ./deployment/Dockerfile -t ${image}:${tag} ."
-						sh "docker push ${image}:${tag}"
-						sh "docker tag ${image}:${tag} ${image}:latest"
-						sh "docker push ${image}:latest"
+						//sh "docker build -f ./deployment/Dockerfile -t ${image}:${tag} ."
+						sh "podman build -f ./deployment/Dockerfile -t ${image}:${tag} ."
+						sh "podman push ${image}:${tag}"
+						sh "podman tag ${image}:${tag} ${image}:latest"
+						sh "podman push ${image}:latest"
 					}
 				}
 			}
