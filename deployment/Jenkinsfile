@@ -80,7 +80,7 @@ podTemplate(
 					sh "sonar-scanner \
 						-Dsonar.projectName=user99-cicd-nodejs \
 		                -Dsonar.projectKey=user99-cicd-nodejs \
-		                -Dsonar.sources=. \
+		                -Dsonar.sources=/ \
 						-Dsonar.inclusions=** \
 						-Dsonar.sourceEncoding=UTF-8 \
 						-Dsonar.language=js \
