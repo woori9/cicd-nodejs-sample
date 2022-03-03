@@ -113,7 +113,8 @@ podTemplate(
                     //sh 'echo "RESULT 1:--- ${my_exit_code}"'
 
 
-					sh "trivy image ${image}:latest --no-progress --output scanning-report.json"
+					//sh "trivy image ${image}:latest --no-progress --output scanning-report.json"
+					sh "trivy image ${image}:latest -o scanning-report.json"
 					//sh "trivy --exit-code 1 --no-progress --severity CRITICAL"
 				
 				
