@@ -23,7 +23,7 @@ podTemplate(
 	containers: [
 		//container image는 docker search 명령 이용
 		containerTemplate(name: "docker", image: "docker:stable", ttyEnabled: true, command: "cat"),
-		containerTemplate(name: 'trivy', image: 'aquasec/trivy:0.21.1', command: 'sleep', args 'infinity'),
+		containerTemplate(name: "trivy", image: "aquasec/trivy:0.21.1", ttyEnabled: true, command: "sleep", args "infinity"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
         containerTemplate(name: "scanner", image: "newtmitch/sonar-scanner", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: 'podman', image: 'ibmcase/podman:ubuntu-16.04', ttyEnabled: true, command: 'cat', privileged: true)
