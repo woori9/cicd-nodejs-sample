@@ -23,6 +23,7 @@ podTemplate(
 	containers: [
 		//container image는 docker search 명령 이용
 		containerTemplate(name: "docker", image: "docker:stable", ttyEnabled: true, command: "cat"),
+		containerTemplate(name: 'trivy', image: 'aquasec/trivy:0.21.1', command: 'sleep', args 'infinity'),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
         containerTemplate(name: "scanner", image: "newtmitch/sonar-scanner", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: 'podman', image: 'ibmcase/podman:ubuntu-16.04', ttyEnabled: true, command: 'cat', privileged: true)
@@ -96,7 +97,16 @@ podTemplate(
 					}
 				}
 			}
-			
+
+			stage("Image Vulnerability Scanning") {
+				container("trivy"){
+					//sh "trivy image -f json -o results.json nginx:1.18"
+					sh "trivy image ${image}:latest"
+                	recordIssues(tools: [trivy(pattern: 'results.json')])
+					//aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
+				}
+			}
+
 			stage( "Clean Up Existing Deployments" ) {
 				container("kubectl") {
 					sh "kubectl delete deployments -n ${namespace} --selector=${selector_key}=${selector_val}"
