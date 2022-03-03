@@ -103,7 +103,7 @@ podTemplate(
 				container("trivy"){
 					//sh "trivy image -f json -o results.json nginx:1.18"
 					//sh "trivy image ${image}:latest"
-					sh "trivy ${image}:latest"
+					sh "trivy image ${image}:latest"
                 	//recordIssues(tools: [trivy(pattern: 'results.json')])
 					//aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
 				
