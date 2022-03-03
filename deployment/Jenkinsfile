@@ -102,9 +102,16 @@ podTemplate(
 			stage("Image Vulnerability Scanning") {
 				container("trivy"){
 					//sh "trivy image -f json -o results.json nginx:1.18"
-					sh "trivy image ${image}:latest"
+					//sh "trivy image ${image}:latest"
+					sh "trivy ${image}:latest"
                 	//recordIssues(tools: [trivy(pattern: 'results.json')])
 					//aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
+				
+					//Trivy scan result processing
+                    my_exit_code=$?
+                    sh 'echo "RESULT 1:--- $my_exit_code"'
+				
+				
 				}
 			}
 
