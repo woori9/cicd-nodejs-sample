@@ -110,7 +110,7 @@ podTemplate(
 					//Trivy scan result processing
                     my_exit_code=$?
                     //echo "RESULT 1:--- $my_exit_code"
-                    sh 'echo RESULT 1:--- "$my_exit_code"'
+                    echo "RESULT 1:--- ${my_exit_code}"
 				
 				
 				}
