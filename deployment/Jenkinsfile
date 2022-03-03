@@ -76,18 +76,28 @@ podTemplate(
 				// 		-Dsonar.login=d08b8bde762cfc3ac15dba8aaaa2aa5e030752ad" 
 				// }
 
+				//container("scanner") {
+				//	sh "sonar-scanner \
+				//		-Dsonar.projectName=user99-cicd-nodejs \
+		        //        -Dsonar.projectKey=user99-cicd-nodejs \
+		        //        -Dsonar.sources=. \
+				//		-Dsonar.inclusions=** \
+				//		-Dsonar.sourceEncoding=UTF-8 \
+				//		-Dsonar.language=javascript \
+		        //        -Dsonar.host.url=http://169.56.71.190:32535/sonar \
+		        //        -Dsonar.login=5adc0ed360a1318b6fd8b7a0fa26f46a867f058c"
+				//		
+				//}
+
 				container("scanner") {
 					sh "sonar-scanner \
 						-Dsonar.projectName=user99-cicd-nodejs \
-		                -Dsonar.projectKey=user99-cicd-nodejs \
-		                -Dsonar.sources=. \
-						-Dsonar.inclusions=** \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.language=javascript \
-		                -Dsonar.host.url=http://169.56.71.190:32535/sonar \
-		                -Dsonar.login=5adc0ed360a1318b6fd8b7a0fa26f46a867f058c"
+					  	-Dsonar.projectKey=cicd-nodejs-sample \
+					  	-Dsonar.sources=. \
+					  	-Dsonar.host.url=http://169.56.71.190:32535/sonar \
+					  	-Dsonar.login=d3fabf9662112c4807f6f588924579aa5aa0001a"
+
 				}
-				
 				//	sh "sonar-scanner \
 				// 		-Dsonar.projectName=sample \
 				// 		-Dsonar.projectKey=sample \
