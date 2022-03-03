@@ -82,7 +82,7 @@ podTemplate(
 		                -Dsonar.projectKey=user99-cicd-nodejs \
 		                -Dsonar.sources=. \
 						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.language=js \
+						-Dsonar.language=javascript \
 		                -Dsonar.host.url=http://169.56.71.190:32535/sonar \
 		                -Dsonar.login=5adc0ed360a1318b6fd8b7a0fa26f46a867f058c"
 				}
