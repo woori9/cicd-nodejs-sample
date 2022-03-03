@@ -87,17 +87,16 @@ podTemplate(
 					                   passwordVariable: 'PASSWORD'
 					               )]) {
 					  //sh 'echo user "$USER" pasword "$PASSWORD"'
-					  sh "podman login --tls-verify=false --username ${USER} --password ${PASSWORD} ${dockerRegistry}"
+					    sh "podman login --tls-verify=false --username ${USER} --password ${PASSWORD} ${dockerRegistry}"
 						sh "podman build -f ./deployment/Dockerfile -t ${image}:${tag} ."
 						sh "podman push ${image}:${tag}"
 						sh "podman tag ${image}:${tag} ${image}:latest"
 						sh "podman push ${image}:latest"
 
 					}
-
-
 				}
 			}
+			
 			stage( "Clean Up Existing Deployments" ) {
 				container("kubectl") {
 					sh "kubectl delete deployments -n ${namespace} --selector=${selector_key}=${selector_val}"
