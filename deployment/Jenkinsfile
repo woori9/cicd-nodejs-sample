@@ -102,8 +102,8 @@ podTemplate(
 			stage("Image Vulnerability Scanning") {
 				container("trivy"){
 					
-					//sh "trivy image ${image}:latest"
-					sh "trivy repo https://gitlab.com/msa2021/cicd-nodejs-sample.git"
+					sh "trivy image ${image}:latest"
+					//sh "trivy repo https://gitlab.com/msa2021/cicd-nodejs-sample.git"
 				}
 			}
 
