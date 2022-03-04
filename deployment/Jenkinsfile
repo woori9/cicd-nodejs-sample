@@ -133,7 +133,7 @@ podTemplate(
                     echo "Trivy image scanning started.... $APP_IMAGE_Temp"
 
                     # Trivy scan
-                    trivy ${APP_IMAGE_Temp}
+                    trivy image ${APP_IMAGE_Temp}
                     # trivy --exit-code 1 --severity CRITICAL ${APP_IMAGE_Temp}
 
                     # Trivy scan result processing
