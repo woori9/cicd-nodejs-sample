@@ -124,6 +124,8 @@ podTemplate(
 
                     set -e
 
+					echo ${APP_IMAGE_Temp}
+
                     echo "Trivy image scanning started.... $APP_IMAGE_Temp"
 
                     # Trivy scan
