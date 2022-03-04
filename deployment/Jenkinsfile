@@ -104,8 +104,8 @@ podTemplate(
 					//sh "trivy image -f json -o results.json nginx:1.18"
 					//sh "trivy image ${image}:latest"
 					sh "trivy image ${image}:latest"
-					sh "my_exit_code=\$\?"
-					sh "echo RESULT : ~~~~~~~~"
+					sh "my_exit_code=\$\1"
+					sh "echo RESULT : ~~~~~~~~\${my_exit_code}"
                 	//recordIssues(tools: [trivy(pattern: 'results.json')])
 					//aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
 				
