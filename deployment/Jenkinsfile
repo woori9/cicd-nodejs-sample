@@ -103,9 +103,9 @@ podTemplate(
 				container("trivy"){
 					//sh "trivy image -f json -o results.json nginx:1.18"
 					//sh "trivy image ${image}:latest"
-					sh "trivy image ${image}:latest"
-					sh "my_exit_code=\$\1"
-					sh "echo RESULT : ~~~~~~~~\${my_exit_code}"
+					//sh "trivy image ${image}:latest"
+					//sh "my_exit_code=\$\1"
+					//sh "echo RESULT : ~~~~~~~~\${my_exit_code}"
                 	//recordIssues(tools: [trivy(pattern: 'results.json')])
 					//aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
 				
@@ -117,8 +117,39 @@ podTemplate(
 
 					//sh "trivy image ${image}:latest --no-progress --output scanning-report.json"
 					//sh "trivy image ${image}:latest -o scanning-report.json"
-					//sh "trivy --exit-code 1 --no-progress --severity CRITICAL"
-				
+					//sh "trivy --exit-code 1 --no-progress --severity CRITICAL ${image}:latest"
+
+
+					sh '''#!/bin/sh
+
+                    set -e
+                    . ./env-config
+
+
+                    APP_IMAGE_Temp="${image}"
+
+                    export TRIVY_AUTH_URL=${REGISTRY_URL}
+                    export TRIVY_USERNAME=${REGISTRY_USER}
+                    export TRIVY_PASSWORD=${REGISTRY_PASSWORD}
+
+                    echo "Trivy image scanning started.... $APP_IMAGE_Temp"
+
+                    # Trivy scan
+                    trivy ${APP_IMAGE_Temp}
+                    # trivy --exit-code 1 --severity CRITICAL ${APP_IMAGE_Temp}
+
+                    # Trivy scan result processing
+                    my_exit_code=$?
+                    echo "RESULT 1:--- $my_exit_code"
+
+                    # Check scan results
+                    if [ ${my_exit_code} == 1 ]; then
+                        echo "Image scanning failed. Some vulnerabilities found"
+                        exit 1;
+                    else
+                        echo "Image is scanned Successfully. No vulnerabilities found"
+                    fi;
+                '''
 				
 				}
 			}
