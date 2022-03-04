@@ -6,17 +6,8 @@ def notifySlack(STATUS, COLOR) {
 	slackSend (channel: '#cicd-sample', color: COLOR, message: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})")
 }
 
-//def notifyMail(STATUS, RECIPIENTS) {
-//	emailext body: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})",
-//	subject: STATUS + " : " + "${env.JOB_NAME} [${env.BUILD_NUMBER}]",
-//	to: RECIPIENTS
-//}
-///* ------------------------------ */
-//
-//def email_recipients="happycloudpak@gmail.com"
-//
+
 notifySlack("STARTED", "#FFFF00")
-//notifyMail("STARTED", "${email_recipients}")
 
 podTemplate(
 	label: label, 
@@ -67,7 +58,6 @@ podTemplate(
 		try {
 			
             stage("Inspection Code") {
-
 				container("scanner") {
 					sh "sonar-scanner \
 						-Dsonar.projectName=cicd-nodejs-sample \
@@ -126,9 +116,7 @@ podTemplate(
 			}
 
             notifySlack("${currentBuild.currentResult}", "#00FF00")
-            //notifyMail("${currentBuild.currentResult}", "${email_recipients}")
-
-
+            
 			echo "**** FINISH ALL STAGES : SUCCESS"
 			echo " Home URL : http://${app_url}"
 
@@ -136,7 +124,7 @@ podTemplate(
 		} catch(e) {
 			currentBuild.result = "FAILED"
             notifySlack("${currentBuild.currentResult}", "#FF0000")
-            //notifyMail("${currentBuild.currentResult}", "${email_recipients}")
+            
 		}
 	}
 }
