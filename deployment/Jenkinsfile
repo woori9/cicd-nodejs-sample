@@ -124,7 +124,7 @@ podTemplate(
 
                     
 
-					echo ${APP_IMAGE_Temp}
+					echo "app_image-temp is .... ${APP_IMAGE_Temp}"
 
                     echo "Trivy image scanning started.... $APP_IMAGE_Temp"
 
