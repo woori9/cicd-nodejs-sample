@@ -124,11 +124,9 @@ podTemplate(
 
                     set -e
 
-                    APP_IMAGE_Temp="hyukseoung/hellonode:latest"
+					echo APP_IMAGE_Temp=${image}
 
-                    export TRIVY_AUTH_URL=${REGISTRY_URL}
-                    export TRIVY_USERNAME=${REGISTRY_USER}
-                    export TRIVY_PASSWORD=${REGISTRY_PASSWORD}
+                    APP_IMAGE_Temp="hyukseoung/hellonode:latest"
 
                     echo "Trivy image scanning started.... $APP_IMAGE_Temp"
 
