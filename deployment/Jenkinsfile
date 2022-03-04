@@ -123,8 +123,6 @@ podTemplate(
 					sh '''#!/bin/sh
 
                     set -e
-                    . ./env-config
-
 
                     APP_IMAGE_Temp="${image}"
 
