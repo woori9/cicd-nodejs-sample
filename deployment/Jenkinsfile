@@ -118,7 +118,7 @@ podTemplate(
 					//sh "trivy image ${image}:latest --no-progress --output scanning-report.json"
 					//sh "trivy image ${image}:latest -o scanning-report.json"
 					//sh "trivy --exit-code 1 --no-progress --severity CRITICAL ${image}:latest"
-					sh "echo APP_IMAGE_Temp=${image}"
+					sh "echo APP_IMAGE_Temp=${image}:latest"
 
 					sh '''#!/bin/sh
 
