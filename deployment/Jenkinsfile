@@ -124,10 +124,6 @@ podTemplate(
 
                     set -e
 
-					echo APP_IMAGE_Temp=${image}
-
-                    APP_IMAGE_Temp="hyukseoung/hellonode:latest"
-
                     echo "Trivy image scanning started.... $APP_IMAGE_Temp"
 
                     # Trivy scan
