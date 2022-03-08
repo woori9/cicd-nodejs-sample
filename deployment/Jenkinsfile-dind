@@ -59,6 +59,8 @@ podTemplate(label: label, yaml: '''
       containers:
       - name: docker
         image: docker:19.03.1
+		securityContext:
+          privileged: true
         command:
         - sleep
         args:
