@@ -27,8 +27,6 @@ notifySlack("STARTED", "#FFFF00")
 //		//hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock")
 //	]
 //) 
-
-
 podTemplate(label: label, yaml: '''
     apiVersion: v1
     kind: Pod
@@ -59,7 +57,7 @@ podTemplate(label: label, yaml: '''
       containers:
       - name: docker
         image: docker:19.03.1
-		securityContext:
+        securityContext:
           privileged: true
         command:
         - sleep
