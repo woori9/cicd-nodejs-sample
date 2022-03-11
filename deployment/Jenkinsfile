@@ -13,8 +13,6 @@ podTemplate(
 	label: label, 
 	containers: [
 		//container image는 docker search 명령 이용
-		containerTemplate(name: "docker", image: "docker:stable", ttyEnabled: true, command: "cat"),
-		//containerTemplate(name: "trivy", image: "aquasec/trivy:0.21.1", ttyEnabled: true, command: "sleep", args "infinity"),
 		containerTemplate(name: "trivy", image: "aquasec/trivy", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
         containerTemplate(name: "scanner", image: "newtmitch/sonar-scanner", ttyEnabled: true, command: "cat"),
@@ -29,8 +27,6 @@ podTemplate(
 {
 	node(label) {
 		stage("Get Source") {
-			//git url:"https://github.com/happykube/hellonode.git", branch: "main", credentialsId: "git_credential"
-		    //git branch: 'main', url: 'https://github.com/happykube/hellonode.git'
 			git branch: 'master', url: 'https://gitlab.com/msa2021/cicd-nodejs-sample.git'
         } 
 
@@ -68,34 +64,13 @@ podTemplate(
 						-Dsonar.language=javascript \
 					  	-Dsonar.host.url=http://169.56.71.190:32535/sonar \
 					  	-Dsonar.login=1f26d285ed1a74349557c47edc201ffaf2dede0c"
-					  	//-Dsonar.login=d3fabf9662112c4807f6f588924579aa5aa0001a"
 
 				}
 			} 
-			           
-//			stage("Build Microservice image") {
-//				container("docker") {
-//					withCredentials([usernamePassword(
-//					                   credentialsId: 'user99RegistryCredential',
-//					                   usernameVariable: 'USER',
-//					                   passwordVariable: 'PASSWORD'
-//					               )]) {
-//					  //sh 'echo user "$USER" pasword "$PASSWORD"'
-//					    //sh "podman login --tls-verify=false --username ${USER} --password ${PASSWORD} ${dockerRegistry}"
-//					    sh "docker login --tls-verify=false --username ${USER} --password ${PASSWORD}"
-//						sh "docker build -f ./deployment/Dockerfile -t ${image}:${tag} ."
-//						sh "docker push ${image}:${tag}"
-//						sh "docker tag ${image}:${tag} ${image}:latest"
-//						sh "docker push ${image}:latest"
-//
-//					}
-//				}
-//			}
 
 			stage("Build Microservice image") {
 				container("podman") {
 					withCredentials([usernamePassword(
-					                   //credentialsId: 'user99RegistryCredential',
 					                   credentialsId: "${credentialRegistry}",
 					                   usernameVariable: 'USER',
 					                   passwordVariable: 'PASSWORD'
@@ -112,14 +87,9 @@ podTemplate(
 				}
 			}
 
-
-
 			stage("Image Vulnerability Scanning") {
 				container("trivy"){
-					
 					sh "trivy image ${image}:latest"
-					//sh "trivy repo https://gitlab.com/msa2021/cicd-nodejs-sample.git"
-
 					
 				}
 			}
