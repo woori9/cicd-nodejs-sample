@@ -95,7 +95,8 @@ podTemplate(
 			stage("Build Microservice image") {
 				container("podman") {
 					withCredentials([usernamePassword(
-					                   credentialsId: 'user99RegistryCredential',
+					                   //credentialsId: 'user99RegistryCredential',
+					                   credentialsId: "${credentialRegistry}",
 					                   usernameVariable: 'USER',
 					                   passwordVariable: 'PASSWORD'
 					               )]) {
