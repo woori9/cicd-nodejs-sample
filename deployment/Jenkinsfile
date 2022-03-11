@@ -61,13 +61,14 @@ podTemplate(
             stage("Inspection Code") {
 				container("scanner") {
 					sh "sonar-scanner \
-						-Dsonar.projectName=cicd-nodejs-sample \
-					  	-Dsonar.projectKey=cicd-nodejs-sample \
+						-Dsonar.projectName=user00-nodejs-sample \
+					  	-Dsonar.projectKey=user00-nodejs-sample \
 					  	-Dsonar.sources=. \
 						-Dsonar.projectBaseDir=. \
 						-Dsonar.language=javascript \
 					  	-Dsonar.host.url=http://169.56.71.190:32535/sonar \
-					  	-Dsonar.login=d3fabf9662112c4807f6f588924579aa5aa0001a"
+					  	-Dsonar.login=1f26d285ed1a74349557c47edc201ffaf2dede0c"
+					  	//-Dsonar.login=d3fabf9662112c4807f6f588924579aa5aa0001a"
 
 				}
 			} 
