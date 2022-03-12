@@ -5,7 +5,6 @@ def notifySlack(STATUS, COLOR) {
 	slackSend (channel: '#cicd-sample', color: COLOR, message: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})")
 }
 
-
 notifySlack("STARTED", "#FFFF00")
 
 podTemplate(
