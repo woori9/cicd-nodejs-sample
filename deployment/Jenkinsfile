@@ -105,7 +105,7 @@ podTemplate(
 					sh "sleep 5"
 					sh "kubectl apply -n ${namespace} -f ${service}"
 					sh "kubectl apply -n ${namespace} -f ${ingress}"
-					sh "kubectl patch ing hellonode -p '{\"spec\":{\"rules\":[{\"host\":\"${selector_val}-${namespace}.169.56.71.190.nip.io\"}]}}'"
+					//sh "kubectl patch ing hellonode -p '{\"spec\":{\"rules\":[{\"host\":\"${selector_val}-${namespace}.169.56.71.190.nip.io\"}]}}'"
 					sh "kubectl get ingress -n ${namespace} --no-headers | awk \'{print \$3}\' > sh-result"
 					app_url = readFile('sh-result').trim()
 					
