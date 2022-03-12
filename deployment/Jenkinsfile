@@ -64,7 +64,7 @@ podTemplate(
 						-Dsonar.language=javascript \
 					  	-Dsonar.host.url=http://169.56.71.190:32535/sonar \
 					  	-Dsonar.login=1f26d285ed1a74349557c47edc201ffaf2dede0c"
-						  
+
 				}
 			} 
 
@@ -75,7 +75,7 @@ podTemplate(
 					                   usernameVariable: 'USER',
 					                   passwordVariable: 'PASSWORD'
 					               )]) {
-					  //sh 'echo user "$USER" pasword "$PASSWORD"'
+					    //sh 'echo user "$USER" pasword "$PASSWORD"'
 					    //sh "podman login --tls-verify=false --username ${USER} --password ${PASSWORD} ${dockerRegistry}"
 					    sh "podman login --tls-verify=false --username ${USER} --password ${PASSWORD}"
 						sh "podman build -f ./deployment/Dockerfile -t ${image}:${tag} ."
