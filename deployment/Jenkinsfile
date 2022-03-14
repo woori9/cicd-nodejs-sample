@@ -81,7 +81,6 @@ podTemplate(
 						sh "podman push ${image}:${tag}"
 						sh "podman tag ${image}:${tag} ${image}:latest"
 						sh "podman push ${image}:latest"
-
 					}
 				}
 			}
