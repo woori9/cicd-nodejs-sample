@@ -63,6 +63,9 @@ podTemplate(
 					  	-Dsonar.host.url=http://169.56.71.190:32535/sonar \
 					  	-Dsonar.login=1f26d285ed1a74349557c47edc201ffaf2dede0c"
 
+
+						  
+
 				}
 			} 
 
