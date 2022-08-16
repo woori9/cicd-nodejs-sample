@@ -41,7 +41,7 @@ podTemplate(
 		def selector_val = props["selector_val"]
 		def namespace = props["namespace"] 
 		def app_url = ""
-		def git_hash = ""
+		def git_hash = sh "git rev-parse HEAD"
 
 		// tag를 재정의 함. 이미지 버전이 달라야 배포시 컨테이너에서 인식
 		// def timeStamp = System.currentTimeMillis()
@@ -87,8 +87,8 @@ podTemplate(
 						sh "podman push ${image}:${tag}"
 						sh "podman tag ${image}:${tag} ${image}:latest"
 						sh "podman push ${image}:latest"
-						git_hash = sh "git rev-parse HEAD"
-						echo "${git_hash:9}"
+						//git_hash = sh "git rev-parse HEAD"
+						//echo "${git_hash:9}"
 					}
 				}
 			}
