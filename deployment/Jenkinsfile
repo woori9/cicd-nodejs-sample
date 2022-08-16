@@ -46,6 +46,7 @@ podTemplate(
 		// def timeStamp = System.currentTimeMillis()
 		// echo "TimeStamp: ${timeStamp}"
 		// echo "Tag : ${tag}"
+		echo "Tag : ${commitId}"
 		// tag = tag+"-"+timeStamp
 		// echo "New Tag : ${tag}"	
 
