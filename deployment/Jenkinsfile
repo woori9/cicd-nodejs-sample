@@ -47,7 +47,7 @@ podTemplate(
 		// echo "TimeStamp: ${timeStamp}"
 		// echo "Tag : ${tag}"
 		//git rev-parse HEAD
-		GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
+		def GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
 		echo "Tag : ${GIT_COMMIT_HASH:0:9}"
 		// tag = tag+"-"+timeStamp
 		// echo "New Tag : ${tag}"	
