@@ -41,10 +41,11 @@ podTemplate(
 		def selector_val = props["selector_val"]
 		def namespace = props["namespace"] 
 		def app_url = ""
-		//def git_hash = sh "git rev-parse HEAD"
+		// git commit hash 가져오기
 		def git_hash = sh (script: "git rev-parse HEAD", returnStdout: true)
+		// 앞 10자리만 보여주기
 		echo " Tag : ${git_hash.substring(0,9)}"
-		echo " Tag : ${git_hash}"
+		//echo " Tag : ${git_hash}"
 
 		// tag를 재정의 함. 이미지 버전이 달라야 배포시 컨테이너에서 인식
 		// def timeStamp = System.currentTimeMillis()
@@ -52,12 +53,7 @@ podTemplate(
 		// echo "Tag : ${tag}"
 		// tag = tag+"-"+timeStamp
 		// echo "New Tag : ${tag}"
-		//git rev-parse HEAD
-		//def git-hash = sh (script: "git rev-parse HEAD", returnStdout: true)
-		//def git_hash = sh "git rev-parse HEAD"
-		//def git-hash = "test"
-		//echo "Tag : ${git_hash:0:9}"	
-
+		
 
 		try {
 			
