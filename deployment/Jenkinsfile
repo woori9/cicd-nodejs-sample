@@ -88,7 +88,7 @@ podTemplate(
 						sh "podman tag ${image}:${tag} ${image}:latest"
 						sh "podman push ${image}:latest"
 						git_hash = sh "git rev-parse HEAD"
-						echo "${git_hash:0:9}"
+						echo "${git_hash:9}"
 					}
 				}
 			}
