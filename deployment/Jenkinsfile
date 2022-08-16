@@ -85,12 +85,12 @@ podTemplate(
 				}
 			}
 
-//			stage("Image Vulnerability Scanning") {
-//				container("trivy"){
-//					sh "trivy image ${image}:latest"
-//					
-//				}
-//			}
+			stage("Image Vulnerability Scanning") {
+				container("trivy"){
+					sh "trivy image ${image}:latest"
+					
+				}
+			}
 
 			stage( "Clean Up Existing Deployments" ) {
 				container("kubectl") {
