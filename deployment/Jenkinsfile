@@ -41,7 +41,8 @@ podTemplate(
 		def selector_val = props["selector_val"]
 		def namespace = props["namespace"] 
 		def app_url = ""
-		// git commit hash 가져오기
+		//
+		// git commit hash 가져오는 방법
 		def git_hash = sh (script: "git rev-parse HEAD", returnStdout: true)
 		// 앞 10자리만 보여주기
 		echo " Tag : ${git_hash.substring(0,9)}"
