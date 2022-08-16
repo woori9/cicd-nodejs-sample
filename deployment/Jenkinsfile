@@ -51,7 +51,7 @@ podTemplate(
 		//git rev-parse HEAD
 		//def git-hash = sh (script: "git rev-parse HEAD", returnStdout: true)
 		//def git-hash = sh "git rev-parse HEAD"
-		def git-hash = sh "git rev-parse HEAD"
+		def git-hash = "test"
 		//echo "Tag : ${git-hash:0:9}"	
 
 
