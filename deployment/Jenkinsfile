@@ -46,12 +46,13 @@ podTemplate(
 		// def timeStamp = System.currentTimeMillis()
 		// echo "TimeStamp: ${timeStamp}"
 		// echo "Tag : ${tag}"
+		// tag = tag+"-"+timeStamp
+		// echo "New Tag : ${tag}"
 		//git rev-parse HEAD
 		//def git-hash = sh (script: "git rev-parse HEAD", returnStdout: true)
+		//def git-hash = sh "git rev-parse HEAD"
 		def git-hash = sh "git rev-parse HEAD"
-		echo "Tag : ${git-hash:0:9}"
-		// tag = tag+"-"+timeStamp
-		// echo "New Tag : ${tag}"	
+		//echo "Tag : ${git-hash:0:9}"	
 
 
 		try {
