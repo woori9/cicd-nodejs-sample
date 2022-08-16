@@ -51,9 +51,9 @@ podTemplate(
 		// echo "New Tag : ${tag}"
 		//git rev-parse HEAD
 		//def git-hash = sh (script: "git rev-parse HEAD", returnStdout: true)
-		//def git-hash = sh "git rev-parse HEAD"
+		def git_hash = sh "git rev-parse HEAD"
 		//def git-hash = "test"
-		//echo "Tag : ${git-hash:0:9}"	
+		echo "Tag : ${git_hash:0:9}"	
 
 
 		try {
@@ -87,8 +87,8 @@ podTemplate(
 						sh "podman push ${image}:${tag}"
 						sh "podman tag ${image}:${tag} ${image}:latest"
 						sh "podman push ${image}:latest"
-						git_hash = sh "git rev-parse HEAD"
-						echo "${git-hash:0:9}"
+						//git_hash = sh "git rev-parse HEAD"
+						//echo "${git_hash:0:9}"
 					}
 				}
 			}
