@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: hellonode
-          image: hyukseoung/hellonode
+          image: myharbor.io/u00/cicd-nodejs-sample
           imagePullPolicy: Always
           env:
             - name: PORT

@@ -5,14 +5,16 @@ def notifySlack(STATUS, COLOR) {
 	slackSend (channel: '#cicd-sample', color: COLOR, message: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})")
 }
 
-//notifySlack("STARTED", "#FFFF00")
+notifySlack("STARTED", "#FFFF00")
 
 podTemplate(
 	label: label, 
 	containers: [
+		//container image는 docker search 명령 이용
 		containerTemplate(name: "trivy", image: "aquasec/trivy", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
 		containerTemplate(name: "scanner", image: "newtmitch/sonar-scanner", ttyEnabled: true, command: "cat"),
+		//containerTemplate(name: 'podman', image: 'ibmcase/podman:ubuntu-16.04', ttyEnabled: true, command: 'cat', privileged: true)
 		containerTemplate(name: 'podman', image: 'mgoltzsche/podman', ttyEnabled: true, command: 'cat', privileged: true)
 	],
 	//volume mount
@@ -23,7 +25,7 @@ podTemplate(
 {
 	node(label) {
 		stage("Get Source") {
-			git branch: 'main', url: 'https://gitlab.com/msa2021/cicd-nodejs-sample.git'
+			git branch: 'master', url: 'https://gitlab.com/msa2021/cicd-nodejs-sample.git'
         } 
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅 
