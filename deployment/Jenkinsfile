@@ -3,7 +3,7 @@ def label = "cicd-nodejs-sample-u00-${env.BUILD_NUMBER}"
 
 /* -------- functions ---------- */
 def notifySlack(STATUS, COLOR) {
-	//slackSend (channel: '#cicd-nodejs-sample-u00', color: COLOR, message: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})")
+	slackSend (channel: '#cicd', color: COLOR, message: STATUS+" : " +  "${env.JOB_NAME} [${env.BUILD_NUMBER}] (${env.BUILD_URL})")
 }
 
 notifySlack("STARTED", "#FFFF00")
@@ -25,7 +25,7 @@ podTemplate(
 {
 	node(label) {
 		stage("Get Source") {
-			//git branch: 'main', url: 'https://github.com/hiondal/cicd-nodejs-sample.git'
+			git branch: 'main', url: 'https://github.com/hiondal/cicd-nodejs-sample.git'
         	} 
 
 		//-- Read pipeline.properties and setting variables
@@ -51,7 +51,6 @@ podTemplate(
 						passwordVariable: 'PASSWORD'
 						)]) {
 						    sh 'echo user "$USER" pasword "$PASSWORD"'
-						    //sh "podman login ${registry} --tls-verify=false --username ${USER} --password ${PASSWORD}"
 						    sh "podman login ${registry} --username ${USER} --password ${PASSWORD}"
 							sh "podman build -f ./deployment/Dockerfile -t ${registry}/${organization}/${repository}:${tag} ."
 							sh "sleep 2"
