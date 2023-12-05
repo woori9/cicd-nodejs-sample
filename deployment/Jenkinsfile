@@ -40,7 +40,6 @@ podTemplate(
 		manifest=props["manifest"]
 		selector_key=props["selector_key"]
 		selector_val=props["selector_val"]
-		def app_url = ""
 
 		try {
 
@@ -69,26 +68,23 @@ podTemplate(
 				}
 			}
 
-			//stage( "Clean Up Existing Deployments" ) {
-			//	container("kubectl") {
-			//		sh "kubectl delete deploy -n ${namespace} --selector=${selector_key}=${selector_val}"
-			//	}
-			//}
+			stage( "Clean Up Existing Deployments" ) {
+				container("kubectl") {
+					try {
+					sh "kubectl delete deploy -n ${namespace} --selector=${selector_key}=${selector_val}"
+					} catch { }
+				}
+			}
 
 			stage( "Deploy to Cluster" ) {
 				container("kubectl") {
 					sh "kubectl apply -f ${manifest} -n ${namespace}"
 					sh "sleep 5"
-					
-					sh "kubectl get ingress -n ${namespace} --no-headers | awk \'{print \$3}\' > sh-result"
-					app_url = readFile('sh-result').trim()
 				}
 			}
 
-	        notifySlack("${currentBuild.currentResult}", "#00FF00")
-	            
+	        	notifySlack("${currentBuild.currentResult}", "#00FF00")
 			echo "**** FINISH ALL STAGES : SUCCESS"
-			echo " Home URL : http://${app_url}"
 		
 		} catch(e) {
 			currentBuild.result = "FAILED"
