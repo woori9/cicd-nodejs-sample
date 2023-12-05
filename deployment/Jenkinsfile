@@ -25,8 +25,8 @@ podTemplate(
 {
 	node(label) {
 		stage("Get Source") {
-			git branch: 'main', url: 'https://github.com/hiondal/cicd-nodejs-sample.git'
-        } 
+			//git branch: 'main', url: 'https://github.com/hiondal/cicd-nodejs-sample.git'
+        	} 
 
 		//-- Read pipeline.properties and setting variables
 		def props = readProperties  file:"deployment/pipeline.properties"
