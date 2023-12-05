@@ -27,7 +27,7 @@ podTemplate(
 			git branch: 'main', url: 'https://github.com/hiondal/cicd-nodejs-sample.git'
         } 
 
-		//-- 환경변수 파일 읽어서 변수값 셋팅 
+		//-- Read pipeline.properties and setting variables
 		def props = readProperties  file:"deployment/pipeline.properties"
 		
 		credentialRegistry=props["credentialRegistry"]
