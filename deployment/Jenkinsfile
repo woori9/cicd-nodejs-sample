@@ -51,7 +51,8 @@ podTemplate(
 						passwordVariable: 'PASSWORD'
 						)]) {
 						    sh 'echo user "$USER" pasword "$PASSWORD"'
-						    sh "podman login ${registry} --tls-verify=false --username ${USER} --password ${PASSWORD}"
+						    //sh "podman login ${registry} --tls-verify=false --username ${USER} --password ${PASSWORD}"
+						    sh "podman login ${registry} --username ${USER} --password ${PASSWORD}"
 							sh "podman build -f ./deployment/Dockerfile -t ${registry}/${organization}/${repository}:${tag} ."
 							sh "sleep 2"
 							sh "podman push ${registry}/${organization}/${repository}:${tag}"
