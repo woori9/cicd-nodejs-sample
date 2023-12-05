@@ -43,7 +43,7 @@ podTemplate(
 
 		try {
 
-			stage("Build Microservice image") {
+			stage("Build Container image") {
 				container("podman") {
 					withCredentials([usernamePassword(
 						credentialsId: "${credentialRegistry}",
@@ -62,7 +62,7 @@ podTemplate(
 					}
 				}
 
-			stage("Image Vulnerability Scanning") {
+			stage("Scan Image Vulnerability") {
 				container("trivy"){
 					sh "trivy image ${registry}/${organization}/${repository}:${tag}"	
 				}
